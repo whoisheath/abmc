@@ -4,10 +4,56 @@ export default function IndexPage() {
   return (
     <div>
       <Nav />
-      <div className="py-20">
-        <h1 className="text-5xl text-center text-gray-700 dark:text-gray-100">
-          Next.js + Tailwind CSS 2.0
-        </h1>
+      <div class="bg-white overflow-hidden shadow rounded-lg w-4/6 m-auto h-auto">
+        <div class="px-4 py-5 sm:p-6">
+          <h1>ABMC</h1>
+        </div>
+        <div>
+          <form className="w-3/6 m-auto">
+            <label
+              for="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Host
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                id="email"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="broker.losant.com"
+              />
+            </div>
+            <label
+              for="port"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Port
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                id="port"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="1883"
+              />
+            </div>
+            <label
+              for="clientId"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Client ID
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                id="clientId"
+                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                placeholder="clientId-xpgvp4ziNe"
+              />
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )
