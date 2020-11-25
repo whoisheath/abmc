@@ -6,6 +6,9 @@ module.exports = {
       colors: {
         'accent-1': '#333',
       },
+      gridTemplateRows: {
+        heathRows: 'auto auto auto',
+      },
     },
   },
   variants: {

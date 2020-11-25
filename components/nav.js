@@ -1,9 +1,6 @@
 import Link from 'next/link'
 
-const links = [
-  { href: 'https://github.com/vercel/next.js', label: 'GitHub' },
-  { href: 'https://nextjs.org/docs', label: 'Docs' },
-]
+const links = [{ href: 'https://github.com/whoisheath/abmc', label: 'GitHub' }]
 
 export default function Nav() {
   return (
@@ -12,7 +9,7 @@ export default function Nav() {
         <li>
           <Link href="/">
             <a className="text-blue-500 no-underline text-accent-1 dark:text-blue-300">
-              Home
+              ABMC
             </a>
           </Link>
         </li>
