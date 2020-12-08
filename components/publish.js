@@ -13,7 +13,7 @@ export default function Publish() {
       <form className="grid gap-5 grid-cols-2 grid-rows-heathRows">
         <div>
           <label
-            for="topic"
+            htmlFor="topic"
             className="block text-sm font-medium text-gray-700"
           >
             Topic
@@ -29,12 +29,15 @@ export default function Publish() {
           </div>
         </div>
         <div>
-          <label for="qos" class="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="qos"
+            className="block text-sm font-medium text-gray-700"
+          >
             QoS
           </label>
           <select
             id="qos"
-            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
             <option defaultValue>0</option>
             <option>1</option>
@@ -43,8 +46,8 @@ export default function Publish() {
         </div>
         <div className="col-span-2 place-self-center">
           <label
-            for="Message"
-            class="text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+            htmlFor="Message"
+            className="text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
           >
             Message
           </label>
@@ -52,9 +55,9 @@ export default function Publish() {
             <textarea
               id="Message"
               rows="3"
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+              className="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
             ></textarea>
-            <p class="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500">
               What message would you like to send?
             </p>
           </div>

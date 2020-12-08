@@ -8,9 +8,10 @@
 import { useState } from 'react'
 
 export default function Subscribe() {
-  const [topic, setTopic] = useState('')
-  const [qos, setQos] = useState(0)
-  const [subList, setSublist] = useState([])
+  const [subTopic, setTopic] = useState('')
+  const [subQos, setQos] = useState(0)
+  const [subList, setSublist] = useState({})
+  const [subbedTopics] = useState([])
 
   const updateTopic = (e) => {
     setTopic(e.target.value)
@@ -20,21 +21,38 @@ export default function Subscribe() {
     setQos(e.target.value)
   }
 
-  const updateSublist = (topic) => {
-    setSublist(subList.concat(topic))
+  const updateSublist = (newObj) => {
+    setSublist(Object.assign(subList, newObj))
+  }
+
+  const updateSubbedTopics = (topicString) => {
+    subbedTopics.push(topicString)
   }
 
   const handleSubscribe = (e) => {
-    let topicObj = {}
-    let qosObj = {}
-    qosObj['qos'] = qos
-    topicObj[`${topic}`] = qosObj
-
-    updateSublist(topic)
-
-    console.log(subList)
-
     e.preventDefault()
+
+    const topicToSubTo = subTopic
+    const qosToSubTo = subQos
+
+    updateSubbedTopics(`${subTopic}`)
+
+    const qosObj = {
+      qos: qosToSubTo,
+    }
+
+    let subObj = {}
+
+    subObj[`${topicToSubTo}`] = qosObj
+
+    updateSublist(subObj)
+
+    let subbedTopicList = document.getElementById('topicList')
+
+    let li = document.createElement('li')
+    li.appendChild(document.createTextNode(subTopic))
+    li.setAttribute('className', 'm-5 pl-5 text-gray-500')
+    subbedTopicList.appendChild(li)
   }
 
   return (
@@ -45,7 +63,7 @@ export default function Subscribe() {
       >
         <div>
           <label
-            for="topic"
+            htmlFor="topicSub"
             className="block text-sm font-medium text-gray-700"
           >
             Topic
@@ -54,20 +72,23 @@ export default function Subscribe() {
             <input
               onChange={updateTopic}
               type="text"
-              id="topic"
+              id="topicSub"
               className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
               placeholder="losant/deviceID/state"
             />
           </div>
         </div>
         <div>
-          <label for="qos" class="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="qosSub"
+            className="block text-sm font-medium text-gray-700"
+          >
             QoS
           </label>
           <select
             onChange={updateQos}
-            id="qos"
-            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            id="qosSub"
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
             <option defaultValue>0</option>
             <option>1</option>
@@ -83,10 +104,14 @@ export default function Subscribe() {
             Subscribe
           </button>
         </div>
+        <p className="place-self-center col-span-2 text-sm text-gray-500">
+          <span className="text-gray-900">Note:</span> Subscribing to a new
+          topic will end your current connection, and restart a new connection
+        </p>
       </form>
       <div id="subList" className="mt-5">
-        <h3>Subscribed Topics:</h3>
-        <ul></ul>
+        <h3 className="text-gray-700">Subscribed Topics:</h3>
+        <ul id="topicList"></ul>
       </div>
     </div>
   )

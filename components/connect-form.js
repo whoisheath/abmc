@@ -36,8 +36,8 @@ const ConnectionForm = () => {
   }
 
   return (
-    <div class="">
-      <div class="px-4 py-5 sm:p-6">
+    <div className="">
+      <div className="px-4 py-5 sm:p-6">
         <h1>
           Connection Status:<span></span>
         </h1>
@@ -49,7 +49,7 @@ const ConnectionForm = () => {
         >
           <div>
             <label
-              for="email"
+              htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
               Host
@@ -66,7 +66,7 @@ const ConnectionForm = () => {
           </div>
           <div>
             <label
-              for="port"
+              htmlFor="port"
               className="block text-sm font-medium text-gray-700"
             >
               Port
@@ -83,7 +83,7 @@ const ConnectionForm = () => {
           </div>
           <div className="">
             <label
-              for="clientId"
+              htmlFor="clientId"
               className="block text-sm font-medium text-gray-700"
             >
               Client ID
@@ -100,7 +100,7 @@ const ConnectionForm = () => {
           </div>
           <div>
             <label
-              for="keepAlive"
+              htmlFor="keepAlive"
               className="block text-sm font-medium text-gray-700"
             >
               Keep Alive
@@ -117,7 +117,7 @@ const ConnectionForm = () => {
           </div>
           <div>
             <label
-              for="username"
+              htmlFor="username"
               className="block text-sm font-medium text-gray-700"
             >
               Username
@@ -134,7 +134,7 @@ const ConnectionForm = () => {
           </div>
           <div>
             <label
-              for="password"
+              htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
               Password
