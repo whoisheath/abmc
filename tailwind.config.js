@@ -8,6 +8,10 @@ module.exports = {
       },
       gridTemplateRows: {
         heathRows: 'auto auto auto',
+        steppe: 'auto auto',
+      },
+      gridTemplateColumns: {
+        heathCols: '80% auto',
       },
     },
   },

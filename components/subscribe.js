@@ -9,7 +9,7 @@ import { useState } from 'react'
 
 export default function Subscribe() {
   const [subTopic, setTopic] = useState('')
-  const [subQos, setQos] = useState(0)
+  const [subQos, setSubQos] = useState(0)
   const [subList, setSublist] = useState({})
   const [subbedTopics] = useState([])
 
@@ -18,7 +18,7 @@ export default function Subscribe() {
   }
 
   const updateQos = (e) => {
-    setQos(e.target.value)
+    setSubQos(e.target.value)
   }
 
   const updateSublist = (newObj) => {
@@ -51,7 +51,7 @@ export default function Subscribe() {
 
     let li = document.createElement('li')
     li.appendChild(document.createTextNode(subTopic))
-    li.setAttribute('className', 'm-5 pl-5 text-gray-500')
+    li.setAttribute('class', 'm-5 pl-5 text-gray-500')
     subbedTopicList.appendChild(li)
   }
 
@@ -111,7 +111,7 @@ export default function Subscribe() {
       </form>
       <div id="subList" className="mt-5">
         <h3 className="text-gray-700">Subscribed Topics:</h3>
-        <ul id="topicList"></ul>
+        <ul id="topicList" className="overflow-scroll"></ul>
       </div>
     </div>
   )
