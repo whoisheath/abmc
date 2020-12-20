@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import mqtt from 'mqtt'
 
 const ConnectionForm = () => {
   const [host, setHost] = useState()
@@ -30,8 +31,22 @@ const ConnectionForm = () => {
     setPassword(e.target.value)
   }
 
+  let options = {
+      'username': username, 
+      'password': password,
+      'clientId': clientId,
+      'keepalive': keepAlive
+  }
+  
+  let uri = `ws://${host}:${port}`
+
+  
   const connect = (e) => {
-    console.log('hello world')
+    let client = mqtt.connect(uri, options)
+
+    client.on('connect', () => {
+        console.log('connection successfull')
+    })
     e.preventDefault()
   }
 
@@ -152,10 +167,11 @@ const ConnectionForm = () => {
           <div className="place-self-center col-span-2">
             <button
               type="submit"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center mx-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Connect
             </button>
+            {/* <button className="inline-flex items-center mx-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Stop</button> */}
           </div>
         </form>
       </div>
