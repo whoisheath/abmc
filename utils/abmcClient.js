@@ -1,4 +1,5 @@
 import mqtt from 'mqtt'
+import { EventEmitter } from 'events'
 
 function abmcMQTT(uri, options) {
   abmcMQTT.client = mqtt.connect(uri, options)
