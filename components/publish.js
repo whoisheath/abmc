@@ -1,5 +1,6 @@
 // publish to a topic on button press
 import { useState } from 'react'
+import abmcMQTT from '../utils/abmcClient'
 
 export default function Publish() {
   const [topic, setTopic] = useState('')
@@ -22,6 +23,12 @@ export default function Publish() {
     e.preventDefault()
 
     console.log(topic, qos, message)
+
+    let options = {
+      qos: qos,
+    }
+
+    abmcMQTT.client.publish(topic, message, options)
 
     let publishedMessageList = document.getElementById('publishedMessageList')
 

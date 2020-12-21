@@ -6,6 +6,7 @@
 // {'test1': {qos: 0}, 'test2': {qos: 1}}
 
 import { useState } from 'react'
+import abmcMQTT from '../utils/abmcClient'
 
 export default function Subscribe() {
   const [subTopic, setTopic] = useState('')
@@ -53,6 +54,8 @@ export default function Subscribe() {
     li.appendChild(document.createTextNode(subTopic))
     li.setAttribute('class', 'm-5 pl-5 text-gray-500')
     subbedTopicList.appendChild(li)
+
+    abmcMQTT.client.subscribe(topicToSubTo, qosObj)
   }
 
   return (

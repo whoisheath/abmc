@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import mqtt from 'mqtt'
+import abmcMQTT from '../utils/abmcClient'
 
 const ConnectionForm = () => {
   const [host, setHost] = useState()
@@ -32,22 +33,27 @@ const ConnectionForm = () => {
   }
 
   let options = {
-      'username': username, 
-      'password': password,
-      'clientId': clientId,
-      'keepalive': keepAlive
+    username: username,
+    password: password,
+    clientId: clientId,
+    keepalive: keepAlive,
+    reconnectPeriod: 0,
   }
-  
+
   let uri = `ws://${host}:${port}`
 
-  
   const connect = (e) => {
-    let client = mqtt.connect(uri, options)
+    abmcMQTT(uri, options)
 
-    client.on('connect', () => {
-        console.log('connection successfull')
-    })
     e.preventDefault()
+  }
+
+  const disconnect = (e) => {
+    e.preventDefault()
+
+    abmcMQTT.client.end()
+
+    console.log('stopped')
   }
 
   return (
@@ -171,7 +177,12 @@ const ConnectionForm = () => {
             >
               Connect
             </button>
-            {/* <button className="inline-flex items-center mx-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Stop</button> */}
+            <button
+              onClick={disconnect}
+              className="inline-flex items-center mx-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Stop
+            </button>
           </div>
         </form>
       </div>
