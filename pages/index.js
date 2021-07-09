@@ -6,7 +6,7 @@ import ReceivedMessages from '../components/received-messages'
 
 export default function IndexPage() {
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-scroll">
       <Nav />
       <div className="grid grid-cols-heathCols">
         <div className="grid gap-10 grid-cols-2 grid-rows-steppe bg-white overflow-hidden shadow rounded-lg m-3 h-auto pb-5 mb-5">

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import mqtt from 'mqtt'
 import abmcMQTT from '../utils/abmcClient'
+import Swal from 'sweetalert2'
 
 const ConnectionForm = () => {
   const [host, setHost] = useState()
@@ -26,8 +26,6 @@ const ConnectionForm = () => {
     setUsername(e.target.value)
   }
 
-  // TODO: figure out correct way to set password storage
-  // and keep things secure
   const updatePassword = (e) => {
     setPassword(e.target.value)
   }
@@ -36,15 +34,24 @@ const ConnectionForm = () => {
     username: username,
     password: password,
     clientId: clientId,
-    keepalive: keepAlive,
+    keepalive: keepAlive || 60,
     reconnectPeriod: 0,
   }
 
   let uri = `ws://${host}:${port}`
 
   const connect = (e) => {
-    abmcMQTT(uri, options)
-
+    try {
+      abmcMQTT(uri, options)
+    } catch (e) {
+      console.error(e)
+      Swal.fire({
+        icon: 'error',
+        title: 'Issue Connecting to MQTT Broker',
+        text: 'Check your MQTT Connection Configuration'
+      })
+    }
+    
     e.preventDefault()
   }
 
@@ -57,12 +64,7 @@ const ConnectionForm = () => {
   }
 
   return (
-    <div className="">
-      <div className="px-4 py-5 sm:p-6">
-        <h1>
-          Connection Status:<span></span>
-        </h1>
-      </div>
+    <div className="pt-5">
       <div>
         <form
           className="w-3/6 m-auto grid gap-5 grid-cols-2 grid-rows-4"

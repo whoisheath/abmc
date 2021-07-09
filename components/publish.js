@@ -1,11 +1,13 @@
 // publish to a topic on button press
 import { useState } from 'react'
 import abmcMQTT from '../utils/abmcClient'
+import Swal from 'sweetalert2'
 
 export default function Publish() {
   const [topic, setTopic] = useState('')
   const [qos, setQos] = useState(0)
   const [message, setMessage] = useState('')
+  const [publishedMessages, setPublishedMessage] = useState({})
 
   const updateTopic = (e) => {
     setTopic(e.target.value)
@@ -19,30 +21,46 @@ export default function Publish() {
     setMessage(e.target.value)
   }
 
+  const updatePublishedMessageList = (newObj) => {
+    setPublishedMessage((previousMessages) => Object.assign(previousMessages, newObj))
+  }
+
   const handlePublish = (e) => {
     e.preventDefault()
-
-    console.log(topic, qos, message)
 
     let options = {
       qos: qos,
     }
 
-    abmcMQTT.client.publish(topic, message, options)
+    let msgObj = {}
 
-    let publishedMessageList = document.getElementById('publishedMessageList')
+    msgObj[topic] = message
+    
+    try {
+      abmcMQTT.client.publish(topic, message, options)
+      updatePublishedMessageList(msgObj)
+    } catch (e) {
+      console.error(e)
+      Swal.fire({
+        icon: 'error',
+        title: 'Issuing Publishing Message',
+        text: 'Looks like an error was encountered when publishing a message to a topic. Double check your configuration.'
+      })
+    }
 
-    let ul = document.createElement('ul')
-    let li1 = document.createElement('li')
-    let li2 = document.createElement('li')
-    li1.appendChild(document.createTextNode(`Topic: ${topic}`))
-    li2.appendChild(document.createTextNode(`Message: ${message}`))
-    li1.setAttribute('class', 'm-2 pl-2 text-gray-900')
-    li2.setAttribute('class', 'm-2 pl-2 text-gray-500')
-    ul.appendChild(li1)
-    ul.appendChild(li2)
-    ul.setAttribute('class', 'bg-gray-200')
-    publishedMessageList.appendChild(ul)
+    // let publishedMessageList = document.getElementById('publishedMessageList')
+
+    // let ul = document.createElement('ul')
+    // let li1 = document.createElement('li')
+    // let li2 = document.createElement('li')
+    // li1.appendChild(document.createTextNode(`Topic: ${topic}`))
+    // li2.appendChild(document.createTextNode(`Message: ${message}`))
+    // li1.setAttribute('class', 'm-2 pl-2 text-gray-900')
+    // li2.setAttribute('class', 'm-2 pl-2 text-gray-500')
+    // ul.appendChild(li1)
+    // ul.appendChild(li2)
+    // ul.setAttribute('class', 'bg-gray-200')
+    // publishedMessageList.appendChild(ul)
   }
 
   return (
@@ -115,7 +133,16 @@ export default function Publish() {
       </form>
       <div className="mt-5">
         <h3 className="text-gray-700">Published Messages:</h3>
-        <ul id="publishedMessageList"></ul>
+        <ul id="publishedMessageList">
+          {Object.entries(publishedMessages).forEach((thing) => {
+            return (
+              <>
+                <li>topic: {thing[0]}</li>
+                <li>message: {thing[1]}</li>
+              </>
+            )
+          })}
+        </ul>
       </div>
     </div>
   )

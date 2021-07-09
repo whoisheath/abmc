@@ -7,6 +7,7 @@
 
 import { useState } from 'react'
 import abmcMQTT from '../utils/abmcClient'
+import Swal from 'sweetalert2'
 
 export default function Subscribe() {
   const [subTopic, setTopic] = useState('')
@@ -23,7 +24,7 @@ export default function Subscribe() {
   }
 
   const updateSublist = (newObj) => {
-    setSublist(Object.assign(subList, newObj))
+    setSublist((previousSubList) => Object.assign(previousSubList, newObj))
   }
 
   const updateSubbedTopics = (topicString) => {
@@ -42,20 +43,31 @@ export default function Subscribe() {
       qos: qosToSubTo,
     }
 
-    let subObj = {}
+    const subObj = {}
 
-    subObj[`${topicToSubTo}`] = qosObj
+    subObj[topicToSubTo] = qosObj
 
-    updateSublist(subObj)
-
-    let subbedTopicList = document.getElementById('topicList')
-
-    let li = document.createElement('li')
-    li.appendChild(document.createTextNode(subTopic))
-    li.setAttribute('class', 'm-5 pl-5 text-gray-500')
-    subbedTopicList.appendChild(li)
-
-    abmcMQTT.client.subscribe(topicToSubTo, qosObj)
+    
+    // let subbedTopicList = document.getElementById('topicList')
+    
+    // let li = document.createElement('li')
+    // li.appendChild(document.createTextNode(subTopic))
+    // li.setAttribute('class', 'm-5 pl-5 text-gray-500')
+    // subbedTopicList.appendChild(li)
+    
+    try {
+      abmcMQTT.client.subscribe(topicToSubTo, qosObj)
+      updateSublist(subObj)
+      setTopic()
+    } catch (e) {
+      // error
+      console.error(e);
+      Swal.fire({
+        icon: 'error',
+        title: 'Issue Subscribing to Topic',
+        text: 'Looks like you might need to connect to an MQTT Broker...'
+      })
+    }
   }
 
   return (
@@ -114,7 +126,11 @@ export default function Subscribe() {
       </form>
       <div id="subList" className="mt-5">
         <h3 className="text-gray-700">Subscribed Topics:</h3>
-        <ul id="topicList" className="overflow-scroll"></ul>
+        <ul id="topicList" className="overflow-scroll">
+          {Object.keys(subList).map((topic) => {
+            return <li key={topic}>{topic}</li>
+          })}
+        </ul>
       </div>
     </div>
   )
